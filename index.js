@@ -17,7 +17,7 @@ let users = {
     },
 };
   
-  let messages = {
+let messages = {
     1: {
       id: '1',
       text: 'Hello World',
@@ -33,7 +33,11 @@ let users = {
 
 
 app.get('/users', (req, res) => {
-    return res.send('GET HTTP method on user resource');
+    return res.send(Object.values(users));
+});
+
+app.get('/users/:userId', (req, res) => {
+    return res.send(users[req.params.userId]);
 });
 
 app.post('/users', (req, res) => {
@@ -46,6 +50,15 @@ app.put('/users/:userId', (req, res) => {
   
 app.delete('/:userId', (req, res) => {
     return res.send(`DELETE HTTP methor on user/${req.params.userId} resource`);
+});
+
+// messages
+app.get('/messages', (req, res) => {
+    return res.send(Object.values(messages));
+});
+
+app.get('/messages/:messageId', (req, res) => {
+    return res.send(messages[req.params.messageId]);
 });
 
 app.listen(PORT, ()=>{
