@@ -1,9 +1,12 @@
 // require('dotenv/config');
+const { v4: uuidv4 } = require('uuid');
 const express = require('express');
 
 let PORT = 3000;
 
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 
 let users = {
@@ -52,7 +55,7 @@ app.delete('/:userId', (req, res) => {
     return res.send(`DELETE HTTP methor on user/${req.params.userId} resource`);
 });
 
-// messages
+// messages routes
 app.get('/messages', (req, res) => {
     return res.send(Object.values(messages));
 });
@@ -60,6 +63,19 @@ app.get('/messages', (req, res) => {
 app.get('/messages/:messageId', (req, res) => {
     return res.send(messages[req.params.messageId]);
 });
+
+app.post('/messages', (req,res)=>{
+
+    let id = uuidv4();
+
+    let message = {
+        id,
+        text: req.body.text
+    }
+
+    messages[id] = message;
+    return res.send(messages);
+})
 
 app.listen(PORT, ()=>{
     console.log("Example app is running on " + PORT);
