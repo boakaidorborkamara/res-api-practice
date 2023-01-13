@@ -8,6 +8,12 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// middleware 
+app.use((req,res,next)=>{
+    req.me = users[1];
+    console.log(req.me);
+})
+
 
 let users = {
     1: {
@@ -70,7 +76,8 @@ app.post('/messages', (req,res)=>{
 
     let message = {
         id,
-        text: req.body.text
+        text: req.body.text,
+        user_id: req.me.id
     }
 
     messages[id] = message;
